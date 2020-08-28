@@ -30,7 +30,7 @@ class TestHandler(BaseHandler):
                 password2='zxcvbn',
             )
             user = UserModel(**user)
-            return self.finish_with_ok(BaseResponse(status_code=200, reason='user_found', data=user.json()))
+            return self.finish_with_ok(BaseResponse(status_code=200, reason='user_found', data=user))
         except ValidationError as e:
             return self.finish_with_error(BaseResponse(status_code=422, reason='validation error'))
 

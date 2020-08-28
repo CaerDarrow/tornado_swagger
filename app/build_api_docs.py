@@ -98,7 +98,7 @@ def _build_endpoint_docs(swagger, route):
     if route.target.SWAGGED:
         formated_path = _format_handler_path(route)
         path_doc = _build_path_doc(handler=route.target)
-        swagger['paths'][formated_path].update(path_doc)
+        swagger['paths'][formated_path.replace(swagger['basePath'], '')].update(path_doc)
 
 
 def generate_doc_from_endpoints(routes: typing.List[tornado.web.URLSpec],
@@ -132,7 +132,7 @@ def _format_handler_path(route):
     route_pattern = route.regex.pattern
 
     for i, entity in enumerate(brackets_regex.findall(route_pattern)):
-        route_pattern = route_pattern.replace(entity, f"{parameters[i]}", 1)
+        route_pattern = route_pattern.replace(entity, f"{{{parameters[i]}}}", 1)
 
     return route_pattern[:-1]
 
